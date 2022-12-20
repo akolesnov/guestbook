@@ -38,8 +38,11 @@ class Comment
     #[ORM\JoinColumn(nullable: false)]
     private ?Conference $conference = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $photoFilename = null;
+
+    #[ORM\Column(length: 255, nullable: true, options: ["default" => "submitted"])]
+    private ?string $state = 'submitted';
 
     public function toString(): string
     {
@@ -127,5 +130,17 @@ class Comment
     public function setCreatedAtValue()
     {
         $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(?string $state): self
+    {
+        $this->state = $state;
+
+        return $this;
     }
 }
